@@ -14,9 +14,10 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
                 app.quit();
             }
         }
-        KeyCode::Enter =>{
+        KeyCode::Enter => {
             app.start();
         }
+        KeyCode::Tab => app.selected_tab = (app.selected_tab + 1) % 2,
         // Other handlers you could add here.
         _ => {}
     }

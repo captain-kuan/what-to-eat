@@ -1,6 +1,6 @@
 use anyhow::Result;
 use ratatui::Frame;
-use ratatui::{buffer::Buffer, layout::*, style::*, widgets::*};
+use ratatui::{layout::*, style::*, widgets::*};
 
 /// Application.
 #[derive(Debug)]

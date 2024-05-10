@@ -10,6 +10,7 @@ pub type AppResult<T> = std::result::Result<T, Box<dyn error::Error>>;
 pub struct App {
     pub options: Vec<String>,
     pub popup: Popup,
+    pub selected_tab: usize,
     /// Is the application running?
     pub running: bool,
     /// counter
@@ -31,6 +32,7 @@ impl Default for App {
                 "Option7".to_string(),
                 "Option8".to_string(),
             ],
+            selected_tab: 0,
             popup: Popup::default(),
             running: true,
             lucky_num: 9,
