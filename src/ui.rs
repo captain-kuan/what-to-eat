@@ -1,11 +1,8 @@
-use ratatui::{
-    layout::Alignment,
-    style::{Color, Style},
-    widgets::{Block, BorderType, Paragraph},
-    Frame,
-};
+use ratatui::layout::Rect;
+use ratatui::Frame;
 
 use crate::app::App;
+use crate::components::Lucky;
 
 /// Renders the user interface widgets.
 pub fn render(app: &mut App, frame: &mut Frame) {
@@ -13,22 +10,22 @@ pub fn render(app: &mut App, frame: &mut Frame) {
     // See the following resources:
     // - https://docs.rs/ratatui/latest/ratatui/widgets/index.html
     // - https://github.com/ratatui-org/ratatui/tree/master/examples
-    frame.render_widget(
-        Paragraph::new(format!(
-            "This is a tui template.\n\
-                Press `Esc`, `Ctrl-C` or `q` to stop running.\n\
-                Press left and right to increment and decrement the counter respectively.\n\
-                Counter: {}",
-            app.counter
-        ))
-        .block(
-            Block::bordered()
-                .title("Template")
-                .title_alignment(Alignment::Center)
-                .border_type(BorderType::Rounded),
-        )
-        .style(Style::default().fg(Color::Cyan).bg(Color::Black))
-        .centered(),
+
+    frame.render_stateful_widget(
+        Lucky::new(app.options.clone()),
         frame.size(),
-    )
+        &mut app.lucky_num,
+    );
+    if app.popup.is_visible() {
+        let popup_area = Rect {
+            x: frame.size().width / 4,
+            y: frame.size().height / 3,
+            width: frame.size().width / 2,
+            height: frame.size().height / 3,
+        };
+
+        if let Some(title) = app.options.get(app.end_num) {
+            let _ = app.popup.draw(&title, frame, popup_area);
+        }
+    }
 }
